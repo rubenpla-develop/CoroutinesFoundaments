@@ -1,7 +1,27 @@
 package com.rubenpla.coroutinesfoundaments
 
+import kotlin.concurrent.thread
+import kotlin.random.Random
+
 fun main() {
     lambda()
+    threads()
+}
+
+fun threads() {
+    println(multiThread(2, 3))
+}
+
+fun multiThread(x: Int, y: Int): Int {
+    var result = 0
+
+    thread {
+        Thread.sleep(someTime())
+        result = x + y
+    }
+
+    Thread.sleep(2_200)
+    return result
 }
 
 fun lambda() {
@@ -17,4 +37,8 @@ fun multiLambda(x: Int, y: Int, callback : (result : Int) -> Unit) {
 
 fun multi(x: Int, y: Int): Int {
     return x * y
+}
+
+fun someTime() : Long {
+    return Random.nextLong(500, 2000)
 }
