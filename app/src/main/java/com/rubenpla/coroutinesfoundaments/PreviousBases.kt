@@ -10,6 +10,7 @@ fun main() {
 
 fun threads() {
     println(multiThread(2, 3))
+    multiThreadLambda(6, 8) { println("MultiThread Lambda Result: $it") }
 }
 
 fun multiThread(x: Int, y: Int): Int {
@@ -22,6 +23,16 @@ fun multiThread(x: Int, y: Int): Int {
 
     Thread.sleep(2_200)
     return result
+}
+
+fun multiThreadLambda(x: Int, y: Int, callback : (result : Int) -> Unit) {
+    var result = 0
+
+    thread {
+        Thread.sleep(someTime())
+        result = x + y
+        callback(result)
+    }
 }
 
 fun lambda() {
