@@ -1,14 +1,38 @@
 package com.rubenpla.coroutinesfoundaments
 
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 import kotlin.random.Random
 
+private const val SEPARATOR = "===================="
+
 fun main() {
-    lambda()
-    threads()
+//    lambda()
+//    threads()
+    coroutinesVsThreads()
+}
+
+fun newTopic(topic: Any) {
+    println("\n$SEPARATOR $topic $SEPARATOR\n")
+}
+
+
+fun coroutinesVsThreads() {
+    newTopic("Coroutines vs Threads")
+    runBlocking {
+        (1..1_000_000).forEach {
+            launch {
+                delay(someTime())
+                print("*")
+            }
+        }
+    }
 }
 
 fun threads() {
+    newTopic("threads()")
     println(multiThread(2, 3))
     multiThreadLambda(6, 8) { println("MultiThread Lambda Result: $it") }
 }
@@ -36,6 +60,7 @@ fun multiThreadLambda(x: Int, y: Int, callback : (result : Int) -> Unit) {
 }
 
 fun lambda() {
+    newTopic("lambda()")
     println(multi(22, 3))
     println(multiLambda(22, 3) { result ->
         println("Lambda result: $result")
