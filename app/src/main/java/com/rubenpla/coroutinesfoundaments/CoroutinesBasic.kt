@@ -4,6 +4,7 @@ package com.rubenpla.coroutinesfoundaments
 
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -13,7 +14,8 @@ fun main() {
     //suspendFun()
     newTopic("Coroutines constructors")
     //cRunBLocking()
-    cLaunch()
+    //cLaunch()
+    cAsync()
     readLine()
 }
 
@@ -39,6 +41,23 @@ fun cLaunch() {
         }
     }
 }
+fun cAsync() {
+    newTopic("Run blocking")
+    runBlocking {
+        newTopic("launch")
+        val result = async {
+            startMsg()
+            delay(someTime())
+            println("launch")
+            endMsg()
+
+            "Result value"
+        }
+
+        println("Result : ${result.await()}")
+    }
+}
+
 
 fun globalScope() {
     newTopic("Global Scope")
