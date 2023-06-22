@@ -15,8 +15,34 @@ fun main() {
     newTopic("Coroutines constructors")
     //cRunBLocking()
     //cLaunch()
-    cAsync()
+    //cAsync()
+    job()
     readLine()
+}
+
+fun job() {
+    runBlocking {
+        newTopic("Job")
+        val job = launch {
+            startMsg()
+            delay(2_100)
+            println("Job...")
+            endMsg()
+        }
+        println("Job : $job")
+        //delay(2_220) //this lines for completed Job
+        println("isActive: ${job.isActive}")
+        println("isCancelled: ${job.isCancelled}")
+        println("isCompleted: ${job.isCompleted}")
+
+        //this block for cancelled Job
+        println("Task cancelled or interrupted")
+        job.cancel()
+
+        println("isActive: ${job.isActive}")
+        println("isCancelled: ${job.isCancelled}")
+        println("isCompleted: ${job.isCompleted}")
+    }
 }
 
 fun cRunBLocking() {
