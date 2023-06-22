@@ -2,9 +2,13 @@
 
 package com.rubenpla.coroutinesfoundaments
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -17,8 +21,19 @@ fun main() {
     //cLaunch()
     //cAsync()
     //job()
-    deferred()
+    //deferred()
+    cProduce()
     readLine()
+}
+
+fun cProduce() = runBlocking {
+    newTopic("Produce")
+    val names = produceNames()
+    names.consumeEach { println(it) }
+}
+
+fun CoroutineScope.produceNames(): ReceiveChannel<String> = produce {
+    (1..5).forEach { send("name $it") }
 }
 
 fun deferred() {
@@ -92,6 +107,7 @@ fun cLaunch() {
         }
     }
 }
+
 fun cAsync() {
     newTopic("Run blocking")
     runBlocking {
