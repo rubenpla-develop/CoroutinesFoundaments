@@ -12,7 +12,8 @@ fun main() {
     //globalScope()
     //suspendFun()
     newTopic("Coroutines constructors")
-    cRunBLocking()
+    //cRunBLocking()
+    cLaunch()
     readLine()
 }
 
@@ -23,6 +24,19 @@ fun cRunBLocking() {
         delay(someTime())
         println("runBlocking")
         endMsg()
+    }
+}
+
+fun cLaunch() {
+    newTopic("Run blocking")
+    runBlocking {
+        newTopic("launch")
+        launch {
+            startMsg()
+            delay(someTime())
+            println("launch")
+            endMsg()
+        }
     }
 }
 
