@@ -8,11 +8,28 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlin.random.Random
 
 fun main() {
     //dispatchers()
     //nestedCoroutines()
-    changeWithContext()
+    //changeWithContext()
+    sequences()
+}
+
+fun sequences() {
+    newTopic("Sequences")
+    getDataBySequence().forEach { println("$it Gradius ") }
+}
+
+fun getDataBySequence() : Sequence<Float> {
+    return sequence {
+        (1..5).forEach {
+            println("Processing data")
+            Thread.sleep(someTime())
+            yield(20 + it + Random.nextFloat())
+        }
+    }
 }
 
 fun changeWithContext() {
