@@ -11,7 +11,33 @@ import kotlinx.coroutines.withContext
 
 fun main() {
     //dispatchers()
-    nestedCoroutines()
+    //nestedCoroutines()
+    changeWithContext()
+}
+
+fun changeWithContext() {
+    runBlocking {
+        newTopic("WithContext")
+        startMsg()
+
+        withContext(newSingleThreadContext("Thread #1")) {
+            startMsg()
+            delay(someTime())
+            println("   - Thread #1")
+
+            endMsg()
+        }
+
+        withContext(Dispatchers.IO) {
+            startMsg()
+            delay(someTime())
+            println("   - Thread #2")
+
+            endMsg()
+        }
+
+        endMsg()
+    }
 }
 
 @OptIn(DelicateCoroutinesApi::class)
