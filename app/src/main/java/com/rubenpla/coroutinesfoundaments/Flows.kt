@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -76,7 +77,13 @@ fun flowOperators() {
                                 emit(setFormat(it))
                                 emit(setFormat(parseFromCelsToFahr(it), "F"))
                         }
-                        .collect { println(it)}
+                        //.collect { println(it)}
+
+                newTopic("Take")
+                provideFlow()
+                        .take(1)
+                        .map { setFormat(it) }
+                        .collect { println(it) }
 
         }
 }
