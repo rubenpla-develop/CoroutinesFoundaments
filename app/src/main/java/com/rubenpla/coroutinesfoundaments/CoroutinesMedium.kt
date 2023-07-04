@@ -4,30 +4,53 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import kotlin.random.Random
 
 fun main() {
     //dispatchers()
     //nestedCoroutines()
     //changeWithContext()
-    sequences()
+    //sequences()
+    basicFlows()
 }
 
-fun sequences() {
+fun basicFlows() {
+    newTopic("Basic Flows")
+    runBlocking {
+        launch {
+            getDataByFlow().collect() {
+                println(it)
+            }
+        }
+
+        launch {
+            (1..50).forEach {
+               // delay(someTime()/10)
+                println("Another task $it")
+            }
+        }
+    }
+}
+
+/*fun sequences() {
     newTopic("Sequences")
-    getDataBySequence().forEach { println("$it Gradius ") }
-}
+    getDataByFlow().forEach { println("$it Gradius ") }
+}*/
 
-fun getDataBySequence() : Sequence<Float> {
-    return sequence {
+fun getDataByFlow() : Flow<Float> {
+    return flow {
         (1..5).forEach {
             println("Processing data")
             Thread.sleep(someTime())
-            yield(20 + it + Random.nextFloat())
+            emit(20 + it + Random.nextFloat())
         }
     }
 }
