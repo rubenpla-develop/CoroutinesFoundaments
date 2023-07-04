@@ -5,7 +5,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take
@@ -66,6 +68,14 @@ fun terminalFlowOperators() {
                         .single()
 
                 println("Single: $single")
+
+                newTopic("First")
+                val first = provideFlow().first()
+                println("First: $first")
+
+                newTopic("Last")
+                val last = provideFlow().last()
+                println("last: $last")
 
         }
 }
