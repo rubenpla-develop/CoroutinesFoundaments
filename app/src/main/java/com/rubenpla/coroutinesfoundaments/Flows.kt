@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
@@ -65,7 +66,17 @@ fun flowOperators() {
                         .map {
                                 setFormat(it)
                         }
-                        .collect { println(it) }
+                        //.collect { println(it) }
+
+                //For more complex processes, it is expected to emit 1 value minimum, so its possible
+                // to emit multiple values
+                newTopic("Transform")
+                provideFlow()
+                        .transform {
+                                emit(setFormat(it))
+                                emit(setFormat(parseFromCelsToFahr(it), "F"))
+                        }
+                        .collect { println(it)}
 
         }
 }
