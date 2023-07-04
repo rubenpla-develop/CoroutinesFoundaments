@@ -5,13 +5,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.Locale
 import kotlin.random.Random
 
 fun main() {
         //coldFlow()
-        cancelFlow()
+        //cancelFlow()
+        flowOperators()
 }
 
 fun coldFlow() {
@@ -40,6 +43,25 @@ fun cancelFlow() {
         }
 
 }
+
+fun flowOperators() {
+        runBlocking {
+                newTopic("Intermediate Flow Operators")
+
+                newTopic("Map")
+                //With map you can call a suspend fun inside block
+                provideFlow().map { element ->
+                        //setFormat(element)
+                        setFormat(parseFromCelsToFahr(element), "F")
+                }.collect { formattedElement -> println(formattedElement) }
+        }
+}
+
+fun parseFromCelsToFahr(cels : Float): Float = ((cels * 9) /5) + 32
+
+fun setFormat(heat : Float, degree: String = "C") : String = String.format(Locale.getDefault(), "%.1fº$degree", heat)
+
+
 
 fun provideFlow() : Flow<Float> {
         return flow {
