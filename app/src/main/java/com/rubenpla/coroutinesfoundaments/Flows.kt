@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -17,8 +19,11 @@ import kotlin.random.Random
 fun main() {
         //coldFlow()
         //cancelFlow()
-        flowOperators()
+        //flowOperators()
+        terminalFlowOperators()
 }
+
+
 
 fun coldFlow() {
         newTopic("Flows are cold")
@@ -45,6 +50,24 @@ fun cancelFlow() {
                 job.cancel(CancellationException("Job cancelled manually"))
         }
 
+}
+
+fun terminalFlowOperators() {
+        runBlocking {
+                newTopic("Terminal Flow Operators")
+                newTopic("ToList")
+
+                val list = provideFlow().toList()
+                println("List: $list")
+
+                newTopic("Single")
+                val single = provideFlow()
+                        .take(1)
+                        .single()
+
+                println("Single: $single")
+
+        }
 }
 
 fun flowOperators() {
