@@ -4,6 +4,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -53,7 +54,19 @@ fun flowOperators() {
                 provideFlow().map { element ->
                         //setFormat(element)
                         setFormat(parseFromCelsToFahr(element), "F")
-                }.collect { formattedElement -> println(formattedElement) }
+                }
+                        //.collect { formattedElement -> println(formattedElement) }
+
+                newTopic("Filter")
+                provideFlow()
+                        .filter {
+                                elementToFilter -> elementToFilter < 23
+                        }
+                        .map {
+                                setFormat(it)
+                        }
+                        .collect { println(it) }
+
         }
 }
 
