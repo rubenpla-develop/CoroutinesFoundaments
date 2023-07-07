@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.reduce
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -59,23 +60,36 @@ fun terminalFlowOperators() {
                 newTopic("Terminal Flow Operators")
                 newTopic("ToList")
 
-                val list = provideFlow().toList()
-                println("List: $list")
+                val list = provideFlow()
+                   //     .toList()
+                //println("List: $list")
 
                 newTopic("Single")
                 val single = provideFlow()
-                        .take(1)
-                        .single()
+//                        .take(1)
+//                        .single()
 
-                println("Single: $single")
+                //println("Single: $single")
 
                 newTopic("First")
-                val first = provideFlow().first()
-                println("First: $first")
+                val first = provideFlow()
+                        //.first()
+                //println("First: $first")
 
                 newTopic("Last")
-                val last = provideFlow().last()
-                println("last: $last")
+                val last = provideFlow()
+                        //.last()
+                //println("last: $last")
+
+                newTopic("Reduce")
+                val saving = provideFlow()
+                        .reduce { accumulator, value ->
+                                println("Accumulator: $accumulator")
+                                println("Value: $value")
+                                println("Current saving: ${accumulator+value}")
+                                accumulator+value
+                        }
+                println("Saving: $saving")
 
         }
 }
