@@ -5,6 +5,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -27,7 +29,40 @@ fun main() {
     //cancelFlow()
     //flowOperators()
     //terminalFlowOperators()
-    bufferFlow()
+    //bufferFlow()
+    conflationFlow()
+}
+
+fun conflationFlow() {
+    runBlocking {
+        newTopic("Conflation Flow")
+        val time = measureTimeMillis {
+            getMatchResultsFlow()
+                .conflate() //2558ms
+                //.buffer() //4820ms
+                //.collectLatest { //2597ms
+                .collect() {//7087ms
+                    delay(100)
+                    println(it)
+                }
+        }
+
+        println("Time: ${time}ms")
+    }
+}
+
+fun getMatchResultsFlow(): Flow<String> {
+    return flow {
+        var homeTeam = 0
+        var awayTeam = 0
+        (0..45).forEach {
+            println("minute : $it")
+            delay(50)
+            homeTeam += Random.nextInt(0, 21)/20
+            awayTeam += Random.nextInt(0, 21)/20
+            emit("$homeTeam-$awayTeam")
+        }
+    }
 }
 
 
